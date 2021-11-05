@@ -24,6 +24,15 @@ const style = {
 const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
       const { name, time } = booking;
 
+      const handleBookSubmit = e => {
+                  alert("Your booking is Successfully");
+
+                  //Collect data send it to server
+
+                  handleBookingClose();
+                  e.preventDefault();
+      }
+
       return (
             <Modal
                   aria-labelledby="transition-modal-title"
@@ -41,7 +50,7 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date }) => {
                               <Typography id="transition-modal-title" variant="h6" sx={{m:1}} style={{ color: '#5CE7ED' }} component="h2">
                                     {name}
                               </Typography>
-                              <form action="">
+                              <form onClick={handleBookSubmit}>
                                     <TextField
                                           disabled
                                           sx={{ width: "100%", m: 1 }}
