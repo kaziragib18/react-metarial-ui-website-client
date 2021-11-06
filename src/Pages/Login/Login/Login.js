@@ -1,16 +1,20 @@
 import { Button, Container, Grid, TextField, Typography } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import login from '../../../images/login.png';
 
 const Login = () => {
+      const [loginData, setLoginData] = useState({});
 
       const handleOnChange = e => {
             const field = e.target.name;
             const value = e.target.value;
             console.log(field, value);
+            const newLoginData = { ...loginData };
+            newLoginData[field] = value;
+            setLoginData(newLoginData);
       }
       const handleLoginSubmit = e => {
-
             alert('SucessFully added');
             e.preventDefault();
       }
@@ -26,6 +30,7 @@ const Login = () => {
                                           sx={{ width: '75%', m: 1 }}
                                           id="standard-basic"
                                           label="Your Email"
+                                          type="email"
                                           name="email"
                                           onChange={handleOnChange}
                                           variant="standard"
@@ -39,8 +44,19 @@ const Login = () => {
                                           onChange={handleOnChange}
                                           variant="standard"
                                     />
-                                    <br />
-                                    <Button variant="contained" sx={{ width: "75%", m: 1 }} style={{ backgroundColor: '#5CE7ED' }} type="submit">Sign in</Button>
+
+                                    <Button
+                                          variant="contained"
+                                          sx={{ width: "75%", m: 1 }}
+                                          style={{ backgroundColor: '#5CE7ED' }}
+                                          type="submit">Sign in</Button>
+
+                                    <NavLink style={{ textDecoration: 'none' }}
+                                          to="/register"
+                                          variant="text">
+                                          <Button
+                                          >New user? Please Register</Button>
+                                    </NavLink>
                               </form>
                         </Grid>
                         <Grid item xs={12} md={6}>
