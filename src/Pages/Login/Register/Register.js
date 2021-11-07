@@ -1,30 +1,32 @@
-import { Alert, AlertTitle, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
+import { Alert, Button, CircularProgress, Container, Grid, TextField, Typography } from '@mui/material';
 import React, { useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import login from '../../../images/login.png';
 import Navbar from '../../Shared/Navbar/Navbar';
 
 const Register = () => {
-      const [registerData, setRegisterData] = useState({});
+      const [loginData, setLoginData] = useState({});
+      const history = useHistory();
 
       const { user, registerUser, isLoading, authError } = useAuth();
 
-      const handleOnChange = e => {
+      const handleOnBlur = e => {
             const field = e.target.name;
             const value = e.target.value;
-            const newRegisterData = { ...registerData };
-            newRegisterData[field] = value;
-            setRegisterData(newRegisterData);
+            const newLoginData = { ...loginData };
+            newLoginData[field] = value;
+            console.log(newLoginData);
+            setLoginData(newLoginData);
 
             // console.log(field, value, newRegisterData);
       }
-      const handleRegisterSubmit = e => {
-            if (registerData.password !== registerData.passwordConfirm) {
-                  alert("Your passward didn't match");
+      const handleLoginSubmit = e => {
+            if (loginData.password !== loginData.passwordConfirm) {
+                  alert('Your password did not match');
                   return;
             }
-            registerUser(registerData.email, registerData.password)
+            registerUser(loginData.email, loginData.password, loginData.name, history);
             e.preventDefault();
       }
       return (
@@ -33,19 +35,19 @@ const Register = () => {
                   <Container>
                         <Grid container spacing={2}>
                               <Grid item sx={{ mt: 8 }} xs={12} md={6}>
-                                    <Typography variant="body1" gutterBottom>Register
+                                    <Typography variant="body1" style={{ fontSize: "18px", fontWeight: "400", color: "gray" }} gutterBottom>Register
                                     </Typography>
 
-                                    {!isLoading && <form onSubmit={handleRegisterSubmit}>
-                                          {/* <TextField
-                                          sx={{ width: '75%', m: 1 }}
-                                          id="standard-basic"
-                                          label="Your Name"
-                                          type="name"
-                                          name="name"
-                                          onChange={handleOnChange}
-                                          variant="standard"
-                                    /> */}
+                                    {!isLoading && <form onSubmit={handleLoginSubmit}>
+                                          <TextField
+                                                sx={{ width: '75%', m: 1 }}
+                                                id="standard-basic"
+                                                label="Your Name"
+                                                type="name"
+                                                name="name"
+                                                onBlur={handleOnBlur}
+                                                variant="standard"
+                                          />
                                           <TextField
                                                 sx={{ width: '75%', m: 1 }}
                                                 required
@@ -53,7 +55,7 @@ const Register = () => {
                                                 label="Your Email"
                                                 type="email"
                                                 name="email"
-                                                onChange={handleOnChange}
+                                                onBlur={handleOnBlur}
                                                 variant="standard"
                                           />
                                           <TextField
@@ -63,7 +65,7 @@ const Register = () => {
                                                 label="Your Password"
                                                 type="password"
                                                 name="password"
-                                                onChange={handleOnChange}
+                                                onBlur={handleOnBlur}
                                                 variant="standard"
                                           />
                                           <TextField
@@ -73,7 +75,7 @@ const Register = () => {
                                                 label="Confirm Password"
                                                 type="password"
                                                 name="passwordConfirm"
-                                                onChange={handleOnChange}
+                                                onBlur={handleOnBlur}
                                                 variant="standard"
                                           />
 
@@ -91,9 +93,9 @@ const Register = () => {
                                     </form>}
                                     {isLoading && <CircularProgress />
                                     }
-                                    {user?.email && <Alert severity="success" style={{width:"100%", justifyContent:'center', alignItems:'center' }}>Your Account is Created SuccessFully!
+                                    {user?.email && <Alert severity="success" style={{ width: "100%", justifyContent: 'center', alignItems: 'center' }}>Your Account is Created SuccessFully!
                                     </Alert>}
-                                    {authError && <Alert severity="error" style={{width:"100%", justifyContent:'center', alignItems:'center' }}>{authError}
+                                    {authError && <Alert severity="error" style={{ width: "100%", justifyContent: 'center', alignItems: 'center' }}>{authError}
                                     </Alert>}
                               </Grid>
                               <Grid item xs={12} md={6}>
