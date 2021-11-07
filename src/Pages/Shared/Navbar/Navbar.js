@@ -37,10 +37,17 @@ const Navbar = () => {
           <NavLink style={{ textDecoration: "none", color: "white" }} to="/appointment">
             <Button color="inherit">Appointment</Button>
           </NavLink>
+
           {user?.email ?
-            <Button onClick={logOut}
-              style={{ textDecoration: "none", backgroundColor: "#d50000", color: "white" }} variant="contained"
-            >Logout</Button>
+            <Box>
+               <NavLink style={{ textDecoration: "none", color: "white" }} to="/dashboard">
+            <Button color="inherit">Dashboard</Button>
+          </NavLink>
+
+              <Button onClick={logOut}
+                style={{ textDecoration: "none", backgroundColor: "#d50000", color: "white" }} variant="contained"
+              >Logout</Button>
+            </Box>
             :
             <NavLink
               style={{ textDecoration: "none", color: "white", backgroundColor: "#5CE7ED" }}
