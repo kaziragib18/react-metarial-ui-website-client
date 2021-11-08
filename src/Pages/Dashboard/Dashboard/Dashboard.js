@@ -6,27 +6,25 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import InboxIcon from '@mui/icons-material/MoveToInbox';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import MailIcon from '@mui/icons-material/Mail';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import { Button, Grid, Paper } from '@mui/material';
-import Calender from '../../Shared/Calender/Calender';
-import Appointments from '../Appointments/Appointments';
+import { Button } from '@mui/material';
 import { Link } from 'react-router-dom';
+import { Switch, Route, useRouteMatch } from "react-router-dom";
+import AddDoctor from '../AddDoctor/AddDoctor';
+import MakeAdmin from '../MakeAdmin/MakeAdmin';
+import DashboardHome from '../DashboardHome/DashboardHome';
+import useAuth from './../../../hooks/useAuth';
 
-const drawerWidth = 200;
+const drawerWidth = 205;
 
 function Dashboard(props) {
       const { window } = props;
       const [mobileOpen, setMobileOpen] = React.useState(false);
+      let { path, url } = useRouteMatch();
 
-      const [date, setDate] = React.useState(new Date());
+      const { admin } = useAuth();
 
       const handleDrawerToggle = () => {
             setMobileOpen(!mobileOpen);
@@ -36,14 +34,31 @@ function Dashboard(props) {
             <div>
                   <Toolbar />
                   <Divider />
-
-                  <Link style={{ textDecoration: "none", color: "gray"}} to="/home">
-                        <Button color="inherit" sx={{px:10, py:2, fontWeight:700}}>Home</Button>
+                  <Link style={{ textDecoration: "none", color: "gray" }} to="/home">
+                        <Button color="inherit" sx={{ px: 10, py: 2, fontWeight: 700 }}>Home</Button>
                   </Link>
 
                   <Link style={{ textDecoration: "none", color: "gray" }} to="/appointment">
-                        <Button color="inherit" sx={{px:6, py:2, fontWeight:700}}>Appointment</Button>
+                        <Button color="inherit" sx={{ px: 7, py: 2, fontWeight: 700 }}>Appointment</Button>
                   </Link>
+
+                  <Divider />
+
+                  <Link style={{ textDecoration: "none", color: "gray" }} to={`${url}`}>
+                        <Button color="inherit" sx={{ px: 7, py: 2, fontWeight: 700 }}>Dashboard</Button>
+                  </Link>
+
+                  {admin && <Box>
+                        <Link style={{ textDecoration: "none", color: "gray" }} to={`${url}/makeAdmin`}>
+                              <Button color="inherit" sx={{ px: 7, py: 2, fontWeight: 700 }}>Make Admin</Button>
+                        </Link>
+
+                        <Link style={{ textDecoration: "none", color: "gray" }} to={`${url}/addDoctor`}>
+                              <Button color="inherit" sx={{ px: 7, py: 2, fontWeight: 700 }}>Add Doctor</Button>
+                        </Link>
+                  </Box>}
+
+
                   {/* <List >
                         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
                               <ListItem button key={text}>
@@ -120,48 +135,21 @@ function Dashboard(props) {
                         sx={{ flexGrow: 1, p: 3, width: { sm: `calc(100% - ${drawerWidth}px)` } }}
                   >
                         <Toolbar />
-                        <Typography paragraph>
-                              <Grid container spacing={0}>
-                                    <Grid item xs={12} sm={8} md={6} lg={4}>
-                                          <Box
-                                                sx={{
-                                                      display: 'flex',
-                                                      flexWrap: 'wrap',
-                                                      '& > :not(style)': {
-                                                            m: 1,
-                                                            width: "100%"
-                                                      },
-                                                }}
-                                          >
-                                                <Paper elevation={1}>
-                                                      <Calender
-                                                            date={date}
-                                                            setDate={setDate}></Calender>
-                                                </Paper>
-                                          </Box>
-                                    </Grid>
-                                    <Grid item xs={12} md={6} lg={8}>
-                                          <Box
-                                                sx={{
-                                                      display: 'flex',
-                                                      flexWrap: 'wrap',
-                                                      '& > :not(style)': {
-                                                            m: 1,
-                                                            p: 1,
-                                                            width: "100%",
-                                                            height: "auto",
-                                                      },
-                                                }}
-                                          >
-                                                <Paper elevation={1}>
-                                                      <Appointments
-                                                            date={date}></Appointments>
-                                                </Paper>
-                                          </Box>
-                                    </Grid>
 
-                              </Grid>
-                        </Typography>
+                        <Switch>
+                              <Route exact path={path}>
+                                    <DashboardHome></DashboardHome>
+                              </Route>
+                              <Route path={`${path}/makeAdmin`}>
+                                    <MakeAdmin></MakeAdmin>
+                              </Route>
+
+                              <Route path={`${path}/addDoctor`}>
+                                    <AddDoctor></AddDoctor>
+                              </Route>
+
+                        </Switch>
+
                   </Box>
             </Box>
       );
