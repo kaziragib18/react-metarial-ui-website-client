@@ -24,7 +24,7 @@ const Register = () => {
       const handleLoginSubmit = e => {
             if (loginData.password !== loginData.passwordConfirm) {
                   alert('Your password did not match');
-                  return;
+                  return
             }
             registerUser(loginData.email, loginData.password, loginData.name, history);
             e.preventDefault();
@@ -38,8 +38,9 @@ const Register = () => {
                                     <Typography variant="body1" style={{ fontSize: "18px", fontWeight: "400", color: "gray" }} gutterBottom>Register
                                     </Typography>
 
-                                    {!isLoading && <form onSubmit={handleLoginSubmit}>
+                                    {!isLoading && <form>
                                           <TextField
+                                                required
                                                 sx={{ width: '75%', m: 1 }}
                                                 id="standard-basic"
                                                 label="Your Name"
@@ -79,11 +80,11 @@ const Register = () => {
                                                 variant="standard"
                                           />
 
-                                          <Button
+                                          <Button onClick={handleLoginSubmit}
                                                 variant="contained"
                                                 sx={{ width: "75%", m: 1 }}
                                                 style={{ backgroundColor: '#5CE7ED' }}
-                                                type="submit">Sign in</Button>
+                                          >Sign up</Button>
 
                                           <NavLink style={{ textDecoration: 'none' }}
                                                 to="/login"

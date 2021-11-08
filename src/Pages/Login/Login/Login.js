@@ -40,7 +40,7 @@ const Login = () => {
 
                                     {isLoading && <CircularProgress />
                                     }
-                                    <form >
+                                    <form>
                                           <TextField
                                                 sx={{ width: '75%', m: 1 }}
                                                 id="standard-basic"
@@ -61,7 +61,7 @@ const Login = () => {
                                           />
 
                                           <Button
-                                                onSubmit={handleLoginSubmit}
+                                                onClick={handleLoginSubmit}
                                                 variant="contained"
                                                 sx={{ width: "75%", m: 1 }}
                                                 style={{ backgroundColor: '#5CE7ED' }}

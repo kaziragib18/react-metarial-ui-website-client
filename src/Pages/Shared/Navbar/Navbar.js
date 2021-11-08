@@ -43,7 +43,6 @@ const Navbar = () => {
                <NavLink style={{ textDecoration: "none", color: "white" }} to="/dashboard">
             <Button color="inherit">Dashboard</Button>
           </NavLink>
-
               <Button onClick={logOut}
                 style={{ textDecoration: "none", backgroundColor: "#d50000", color: "white" }} variant="contained"
               >Logout</Button>

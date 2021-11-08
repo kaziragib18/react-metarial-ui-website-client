@@ -18,8 +18,10 @@ const useFirebase = () => {
             createUserWithEmailAndPassword(auth, email, password)
                   .then((userCredential) => {
                         setAuthError('');
-                        const newUser = {email, displayName: name};
+                        const newUser = { email, displayName: name };
                         setUser(newUser);
+                        //save user to datebase
+                        saveUser(email, name);
                         //send name to firebase after creation
                         updateProfile(auth.currentUser, {
                               displayName: name
@@ -54,6 +56,8 @@ const useFirebase = () => {
             signInWithPopup(auth, googleProvider)
                   .then((result) => {
                         const user = result.user;
+                        const destination = location?.state?.from || '/';
+                        history.replace(destination);
                         setAuthError('');
                   })
                   .catch((error) => {
@@ -61,7 +65,6 @@ const useFirebase = () => {
                   })
                   .finally(() => setIsLoading(false));
       }
-
 
       // observer user state
       useEffect(() => {
@@ -83,7 +86,18 @@ const useFirebase = () => {
             }).catch((error) => {
                   // An error happened.
             })
-            .finally(() => setIsLoading(false));
+                  .finally(() => setIsLoading(false));
+      }
+      const saveUser = (email, displayName) => {
+            const user = { email, displayName };
+            fetch('http://localhost:5000/users', {
+                  method: 'POST',
+                  headers: {
+                        'content-type': 'application/json'
+                  },
+                  body: JSON.stringify(user)
+            })
+                  .then()
       }
 
       return {
