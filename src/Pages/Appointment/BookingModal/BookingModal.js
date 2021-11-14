@@ -51,7 +51,7 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date, setBooki
             // console.log(appointment);
 
             //Collect data send it to server
-            fetch('http://localhost:5000/appointments',{
+            fetch('https://polar-woodland-79859.herokuapp.com/appointments',{
                   method: 'POST',
                   headers: {
                         'content-type': 'application/json'

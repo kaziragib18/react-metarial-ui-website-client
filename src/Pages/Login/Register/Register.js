@@ -16,7 +16,7 @@ const Register = () => {
             const value = e.target.value;
             const newLoginData = { ...loginData };
             newLoginData[field] = value;
-            console.log(newLoginData);
+            // console.log(newLoginData);
             setLoginData(newLoginData);
 
             // console.log(field, value, newRegisterData);
