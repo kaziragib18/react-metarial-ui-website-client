@@ -24,7 +24,7 @@ const style = {
 
 
 const BookingModal = ({ openBooking, handleBookingClose, booking, date, setBookingSuccess }) => {
-      const { name, time } = booking;
+      const { name, time, price } = booking;
       const { user } = useAuth();
 
       const initialInfo = {patientName: user.displayName, email: user.email, phone: ''}
@@ -45,6 +45,7 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date, setBooki
             const appointment = {
                   ...bookingInfo,
                   time,
+                  price,
                   serviceName: name,
                   date: date.toLocaleDateString()
             }
@@ -145,6 +146,18 @@ const BookingModal = ({ openBooking, handleBookingClose, booking, date, setBooki
                                           defaultValue=""
                                           size="small"
                                     />
+                                    <TextField
+                                          sx={{ width: "100%", m: 1 }}
+                                          required
+                                          id="outlined-size-small"
+                                          name="phone"
+                                          onBlur={handleOnBlur}
+                                          placeholder="Price"
+                                          type="number"
+                                          defaultValue={price}
+                                          size="small"
+                                    />
+
                                     <Button onClick={handleBookingSubmit} variant="contained" sx={{ m: 1 }} style={{ backgroundColor: '#5CE7ED' }}>Submit</Button>
                               </form>
                         </Box>

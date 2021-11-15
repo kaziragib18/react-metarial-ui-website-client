@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import useAuth from '../../../hooks/useAuth';
+import { Link } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -53,7 +54,7 @@ const Appointments = ({ date }) => {
                                     <TableRow>
                                           <StyledTableCell>Name</StyledTableCell>
                                           <StyledTableCell align="center">Time</StyledTableCell>
-                                          {/* <StyledTableCell align="center">Email</StyledTableCell> */}
+                                          <StyledTableCell align="center">Payment</StyledTableCell>
                                           <StyledTableCell align="center">Treatment</StyledTableCell>
                                           <StyledTableCell align="center">Action</StyledTableCell>
                                     </TableRow>
@@ -66,9 +67,14 @@ const Appointments = ({ date }) => {
                                                 </StyledTableCell>
 
                                                 <StyledTableCell align="center">{row.time}</StyledTableCell>
-                                                {/* <StyledTableCell align="center">{row.email}</StyledTableCell> */}
+                                                <StyledTableCell align="center">{row.payment ? "paid":
+                                                <Link style={{textDecoration:"none"}} to={`/dashboard/payment/${row._id}`}>
+                                                <Button variant="contained">Pay</Button>
+                                                </Link>
+                                                }</StyledTableCell>
                                                 <StyledTableCell align="center">{row.serviceName}</StyledTableCell>
-                                                <StyledTableCell align="center"><Button variant="contained" style={{ backgroundColor: 'red' }}>Delete</Button></StyledTableCell>
+
+                                                <StyledTableCell align="center"><Button variant="contained" style={{ backgroundColor: 'red' }}>Cancel</Button></StyledTableCell>
                                           </StyledTableRow>
                                     ))}
                               </TableBody>
