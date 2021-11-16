@@ -17,7 +17,8 @@ import MakeAdmin from '../MakeAdmin/MakeAdmin';
 import DashboardHome from '../DashboardHome/DashboardHome';
 import useAuth from './../../../hooks/useAuth';
 import AdminRoute from '../../Login/Login/AdminRoute/AdminRoute';
-import Payment from '../../Dashboard/Payment/Payment';
+import Payment from '../Payment/Payment';
+
 
 const drawerWidth = 205;
 
@@ -139,7 +140,7 @@ function Dashboard(props) {
                         <Toolbar />
 
                         <Switch>
-                              
+
                               <Route exact path={path}>
                                     <DashboardHome></DashboardHome>
                               </Route>
