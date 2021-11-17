@@ -4,7 +4,7 @@ import useAuth from '../../../hooks/useAuth';
 import { CircularProgress } from '@mui/material';
 
 const CheckoutForm = ({ appointment }) => {
-      const { price, patientName } = appointment;
+      const { price, patientName, _id } = appointment;
       const stripe = useStripe();
       const elements = useElements();
       const { user } = useAuth();
@@ -26,6 +26,7 @@ const CheckoutForm = ({ appointment }) => {
                   .then(data => setClientSecret(data.clientSecret));
       }, [price]);
 
+
       const handleSubmit = async (e) => {
             e.preventDefault();
             if (!stripe || !elements) {
@@ -36,7 +37,6 @@ const CheckoutForm = ({ appointment }) => {
                   return;
             }
             setProcessing(true);
-
             const { error, paymentMethod } = await stripe.createPaymentMethod({
                   type: 'card',
                   card
@@ -50,7 +50,8 @@ const CheckoutForm = ({ appointment }) => {
                   setError('');
                   console.log(paymentMethod);
             }
-            //payment intent
+
+            // payment intent
             const { paymentIntent, error: intentError } = await stripe.confirmCardPayment(
                   clientSecret,
                   {
@@ -63,6 +64,7 @@ const CheckoutForm = ({ appointment }) => {
                         },
                   },
             );
+
             if (intentError) {
                   setError(intentError.message);
                   setSuccess('');
@@ -72,6 +74,23 @@ const CheckoutForm = ({ appointment }) => {
                   setSuccess('Your payment processed successfully.')
                   console.log(paymentIntent);
                   setProcessing(false);
+                  // save to database
+                  const payment = {
+                        amount: paymentIntent.amount,
+                        created: paymentIntent.created,
+                        last4: paymentMethod.card.last4,
+                        transaction: paymentIntent.client_secret.slice('_secret')[0]
+                  }
+                  const url = `http://localhost:5000/appointments/${_id}`;
+                  fetch(url, {
+                        method: 'PUT',
+                        headers: {
+                              'content-type': 'application/json'
+                        },
+                        body: JSON.stringify(payment)
+                  })
+                        .then(res => res.json())
+                        .then(data => console.log(data));
             }
 
       }
@@ -94,15 +113,15 @@ const CheckoutForm = ({ appointment }) => {
                                     },
                               }}
                         />
-                        {processing ? <CircularProgress /> : <button type="submit" disabled={!stripe}>
+                        {processing ? <CircularProgress></CircularProgress> : <button type="submit" disabled={!stripe || success}>
                               Pay ${price}
                         </button>}
                   </form>
                   {
-                        success && <p style={{ color: 'green' }}>{success}</p>
+                        error && <p style={{ color: 'red' }}>{error}</p>
                   }
                   {
-                        error && <p style={{ color: 'red' }}>{error}</p>
+                        success && <p style={{ color: 'green' }}>{success}</p>
                   }
             </div>
       );

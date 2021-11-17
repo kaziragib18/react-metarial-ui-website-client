@@ -67,11 +67,15 @@ const Appointments = ({ date }) => {
                                                 </StyledTableCell>
 
                                                 <StyledTableCell align="center">{row.time}</StyledTableCell>
-                                                <StyledTableCell align="center">{row.payment ? "paid":
-                                                <Link style={{textDecoration:"none"}} to={`/dashboard/payment/${row._id}`}>
-                                                <Button variant="contained">Pay</Button>
+                                                
+                                                <StyledTableCell align="center">{row.payment ? 
+                                                'Paid' :
+                                                <Link to={`/dashboard/payment/${row._id}`}>
+                                                <button>Pay</button>
                                                 </Link>
-                                                }</StyledTableCell>
+                                                }
+
+                                                </StyledTableCell>
                                                 <StyledTableCell align="center">{row.serviceName}</StyledTableCell>
 
                                                 <StyledTableCell align="center"><Button variant="contained" style={{ backgroundColor: 'red' }}>Cancel</Button></StyledTableCell>

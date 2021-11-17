@@ -5,10 +5,8 @@ import bg from '../../../images/bg.png';
 import { Typography, Button, Container } from '@mui/material';
 import Box from '@mui/material/Box';
 
-
 const bannerBg = {
     background: `url(${bg})`,
-
 }
 
 const verticalCenter = {
@@ -17,8 +15,6 @@ const verticalCenter = {
     alignItems: 'center',
     justifyContent: 'center'
 }
-
-
 
 const Banner = () => {
     return (
